@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+<html>
+	<head>
+		<title>Home Page </title>
+		<link rel="stylesheet" type="text/css" href="../assets/css/pages.css"/>
+		<style type="text/css">
+		h1
+		{
+
+		}
+		.slide
+		{
+   			float:right;
+   			text-align:center;
+  			margin: 0 0 0 20px;
+		}
+
+		a
+		{
+			color:green;
+		}
+		body
+		{
+			background-color: "black";
+			font: "cyan";
+		}
+		</style>
+		<script language="JavaScript">
+			var i = 0;
+			var imglist = new Array();
+			//Manshi Sanghai_Anupama Niranjan_Prathima PN
+			// LIST OF IMAGES
+			imglist[0] = "../assets/img/i1.jpg";
+			imglist[1] = "../assets/img/i2.jpg";
+			imglist[2] = "../assets/img/i3.jpg";
+			imglist[3] = "../assets/img/i4.jpg";
+			imglist[4] = "../assets/img/i5.jpg";
+			imglist[5] = "../assets/img/i6.jpeg";
+
+			function swapImage()
+			{
+   				document.slide.src = imglist[i];
+   				if(i < imglist.length - 1) 
+   					i++; 
+   				else 
+   					i = 0;
+   				setTimeout("swapImage()",2000);
+			}
+			function openNext()
+			{
+				window.open("page1.html");
+			} 
+			window.onload=swapImage;
+		</script> 
+	</head>
+	<body bgcolor="#FF8247">
+		<center>
+    	<h1>HUMAN-PONG</h1> <br/> <br/>
+    	
+    	<img height="200" name="slide" src="../assets/img/i1.jpg" width="400" /> <br/><br/><br/><br/>
+    	<p>Made By: Anupama, Manshi, Pratima </p><br/><br/>
+		<button type="button" class="next" onclick="openNext()">Next</button>
+		</center>
+	</body> 
+</html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->

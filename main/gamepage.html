@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html><!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+   <head>
+   <title>Pong Game In JavaScript</title>
+   <link rel="stylesheet" type="text/css" href="../assets/css/pages.css"/>
+   <style>
+      #box
+      {
+         width: 750px;
+         height: 500px;
+         margin: auto;
+         border: 20px solid black;
+         position: relative;
+         overflow: hidden;
+         background-image: url('../assets/img/bluebg.jpg');
+         background-position: center;
+         background-repeat: repeat;
+         background-attachment: fixed;
+        /* border-image: url(Spike.png) 30 round;*/
+      }
+      .border:hover
+      {
+         box-shadow: inset 0 0 0 15px #C6C6CC;
+      }
+      #line /*help positioning clashing with message */
+      {
+         height: 500px;
+         border: 5px ;
+         position:absolute;
+         top:0px; 
+         left:375px;
+         z-index:1; 
+         border-left:dashed #ccc 5px; 
+      }
+      h1
+      {
+         font-size: 100px;
+      }
+      #msg
+      {
+         position: absolute;
+         top: 450px;
+         left: 400px;
+         color:white;
+      }
+      .ob
+      {
+         position: absolute;
+         border: 0px;
+      }
+      .home
+      {
+         position:absolute;
+         bottom: 0px;
+         right:0px;
+      }
+      .feedback
+      {
+         position:absolute;
+         bottom: 70px;
+         right:0px;
+      }
+      #Score
+      {
+         position:relative;
+         bottom:300px;
+         left:0px;
+      }
+   </style>
+   <script type="text/javascript">
+      //changing these changes difficulty level
+      var Speed = parseInt(localStorage.getItem("speed"));; // Speed of ball (pixels/step)
+      var CPUSpeed = parseInt(localStorage.getItem("cpuSpeed"));; // Speed of CPU Paddle (pixels/step) ie computer
+   
+      // Short references to objects
+      var player;
+      var comp;
+      var ball;
+      var box;
+      var msg;
+
+      // For internal use
+      var dx, dy; // Speed in x and y directions
+      var ballX, ballY; // x and y positions of ball
+      var playerY; // y position of player paddle (x fixed)
+      var pscore;//player score
+      var cscore;//computer score
+
+      var cpuY; // y position of CPU paddle (x fixed)
+      var iID; // To store ID of set interval used to clear it when required
+      
+      
+      //what happens on loading
+      window.onload = Init;
+     //Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+      // INITIALIZE GAME OBJECTS
+      function Init()
+      {
+         //setting of player image
+         var picture = localStorage.getItem('playerImg');
+         var image=document.getElementById("player");
+         image.src=picture;
+
+         //setting comp image
+         picture = localStorage.getItem('compImg');
+         var image=document.getElementById("comp");
+         image.src=picture;
+
+         //setting ball image
+         picture = localStorage.getItem('ballImg');
+         var image=document.getElementById("ball");
+         image.src=picture;
+
+         // initialisation of objects
+         player = document.getElementById('player');
+         comp = document.getElementById('comp');
+         ball = document.getElementById('ball');
+         box = document.getElementById('box');
+         msg = document.getElementById('msg');
+         pscore  = document.getElementById('pscore');
+         cscore  = document.getElementById('cscore');
+
+         // Initial values
+         ballX = (box.offsetWidth / 2) - (ball.offsetWidth / 2); //set ball in middle of the page
+         ballY = (box.offsetHeight / 2) - (ball.offsetHeight / 2);
+         cpuY = (box.offsetHeight / 2) - (comp.offsetHeight / 2); //computer paddle
+         playerY = (box.offsetHeight / 2) - (player.offsetHeight / 2); //user
+         dx = dy = Speed;
+         pscore.innerHTML=0;
+         cscore.innerHTML=0;
+
+         //positioning
+         player.style.left = 20 + 'px'; //20 px from left margin
+         player.style.top = playerY + 'px'; //from top position is set to middle
+         comp.style.right = 20 + 'px'; //20 px from right margin
+         comp.style.top = cpuY + 'px';
+         ball.style.left = ballX + 'px';
+         ball.style.top = ballY + 'px';
+
+         // initial message shown
+         msg.innerHTML = '<h2>Click on the player to start the game.</h2>'; 
+      }
+
+      // game begins
+      function Start()
+      {
+         // moving mouse means moving paddle
+         box.onmousemove = MovePaddle;
+         // Call 'GameLoop()' function every 10 milliseconds
+         iID = setInterval('GameLoop()', 10); //The setInterval() method to provide an escape from the game loop, call it repeatedly
+         msg.innerHTML = ''; //message should vanish once game starts
+      }
+
+      // game loop defined
+      function GameLoop()
+      {
+         // ball movement defined
+         ballX += dx;
+         ballY += dy;
+
+         // checking if player misses hitting the ball
+         if(ballX < 0)
+         {
+            clearInterval(iID);//The ID value returned by setInterval() is used as the parameter for the clearInterval() method. Now the game will end.
+            window.alert("Your Score:"+pscore.innerHTML+" Computer Score: "+cscore.innerHTML);
+            Init();
+            box.onmousemove = '';
+            msg.innerHTML = '<h2>You Lose! :( <br/> Click on the player to restart <br/>the game.</h2>';
+         }
+
+         // See if ball is past the computer's paddle
+
+         if((ballX + ball.offsetWidth) > box.offsetWidth)
+         {
+            clearInterval(iID);
+            window.alert("Your Score:"+pscore.innerHTML+" Computer Score: "+cscore.innerHTML);
+            Init();
+            box.onmousemove = '';
+            msg.innerHTML = '<h2>You Win! Whoopee :D <br/>Click on the player to restart the game.</h2>';
+         }
+
+         // Collision conditions
+         // If the ball hits the upper or lower wall
+         if(ballY < 0 || ((ballY + ball.offsetHeight) > box.offsetHeight))
+            dy = -dy; // Make x direction opposite
+
+         // If ball hits the player's paddle
+         if(ballX < (player.offsetLeft + player.offsetWidth))
+            if(((ballY + ball.offsetHeight) > playerY) && ballY < (playerY + player.offsetHeight))
+            { 
+               dx = -dx;
+               pscore.innerHTML++;
+            }
+      
+         // If ball hits CPU paddle
+          if((ballX + ball.offsetWidth) > comp.offsetLeft)
+            if(((ballY + ball.offsetHeight) > cpuY) && ballY < (cpuY + comp.offsetHeight))
+            {
+               dx = -dx;
+               cscore.innerHTML++;
+            }
+          // Place the ball at calculated positions
+
+         ball.style.left = ballX + 'px';
+         ball.style.top = ballY + 'px';
+
+         // MOVE Computer PADDLE
+         // Move paddle only if ball is coming towards the CPU paddle
+         if(dx > 0)
+         {
+            if((cpuY + (comp.offsetHeight / 2)) > (ballY + ball.offsetHeight)) 
+               cpuY -= CPUSpeed;
+            else
+               cpuY += CPUSpeed;
+            comp.style.top = cpuY + 'px';
+         }
+      }
+
+
+      // TO MOVE PLAYER PADDLE ON MOUSE MOVE EVENT
+      function MovePaddle(e)
+      {
+         // Fetch y coordinate of mouse
+         var y = (e.clientY - (box.offsetTop - document.documentElement.scrollTop));
+         // Here, (box.offsetTop - document.documentElement.scrollTop) will get the relative
+         // position of "box" w.r.t to current scroll postion
+         // If y below lower boundary (cannot go above upper boundary - 
+         // mousemove event only generated when mouse is inside box
+         if(y > (box.offsetHeight - player.offsetHeight))
+            y = (box.offsetHeight - player.offsetHeight);
+
+         // Copy position
+         playerY = y;
+         // Set position
+         player.style.top = y + 'px';
+      }
+      function openHome()
+      {
+         window.open("index.html");
+      }
+      function openFeedback()
+      {
+         window.open("feedback1.html");
+      }
+   </script>
+ </head>
+
+   <body bgcolor="#FFF68F">
+      <h1 align="center">Human-Pong</h1>
+      
+      <div id="box" class="border" >
+         <img class="ob" id="player"  onclick="Start()" height="150" width="75" alt="User"/>
+         <img class="ob" id="comp"  height="150" width="75"alt="Computer"/>
+         <img class="ob" id="ball" height="42" width="42" alt="Ball"/>
+         <div id="line" > </div>
+      </div>
+      <div id="msg" align: "center"> </div>
+      <div id="Score" > <p>Player Score: <br/></p><p id="pscore">0</p><p>Computer Score: <br/></p><p id="cscore">0</p> </div>
+      <button type="button" class="feedback" onclick="openFeedback()">Give Feedback</button>
+      <button type="button" class="home" onclick="openHome()">Home</button> 
+      
+   <!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->   
+   </body>
+</html>

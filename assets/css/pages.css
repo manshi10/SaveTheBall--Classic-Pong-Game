@@ -1,0 +1,89 @@
+@font-face 
+{
+	font-family: heading;
+   	src: url(../fonts/RoughSimple.ttf);
+}
+@font-face
+{
+	font-family: para;
+	src: url(../fonts/Abee.ttf);
+}
+h1
+{
+	font-family: heading, Arial;
+	font-weight: bold;
+	font-size: 150px;
+	text-transform: uppercase;
+	color: #444444;
+    text-shadow: 2px 2px 2px #CCCCCC;
+    margin-bottom: 0em;
+    margin-top:0em;
+}
+h2
+{
+	font-family: para, Arial;
+	font-weight: bold;
+	
+}
+p
+{
+	font-family: para, Arial;
+	font-size: 20px;
+	color: black;
+}
+button 
+{
+	font-family: para, Arial;	
+	font-weight: bold;
+	font-size: 150%;
+	text-transform: uppercase;
+}
+.easy
+{
+	background:#ffb400;
+	width:160px;
+	height:65px;
+	border:#ffb400;
+}
+.medium
+{
+	background:#199fbd;
+	width:160px;
+	height:65px;
+	border:#199fbd;
+}
+.difficult
+{
+	background:#d91c1c;
+	width:160px;
+	height:65px;
+	border:#d91c1c;
+}
+.prev
+{
+	background:#ff0187;
+	border:#ff0187;
+	width:175px;
+	height:60px;
+}
+.next
+{
+	background:#9bcc5a;
+	border:#9bcc5a;
+	width:175px;
+	height:60px;
+}
+.home
+{
+	background:#d44b00;
+	border:#d44b00;
+	width:175px;
+	height:60px;
+}
+.feedback
+{
+	background:#ff0187;
+	border:#ff0187;
+	width:175px;
+	height:60px;
+}

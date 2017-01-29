@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+<html>
+	<head>
+		<title> Page4 </title>
+		<link rel="stylesheet" type="text/css" href="../assets/css/pages.css"/>
+		<script>
+			function easy()
+			{
+				localStorage.setItem('cpuSpeed', 3);
+				localStorage.setItem('speed',5);
+			}
+			function medium()
+			{
+				localStorage.setItem('cpuSpeed', 7);
+				localStorage.setItem('speed',7);
+			}
+			function difficult()
+			{
+				localStorage.setItem('cpuSpeed', 22);
+				localStorage.setItem('speed',20);
+			}
+			function openHome()
+			{
+				window.open("index.html");
+			}
+			function openNext()
+			{
+				window.open("page5.html");
+			}
+			function openPrev()
+			{
+				window.open("page3.html");
+			}
+		</script>
+	</head>
+	<body bgcolor="#8968CD">
+		<center>
+		<h1> Menu </h1><br/>
+		<p id="diffToggle"> <b>Click on Difficulty level: </b> <br/><br/>
+			<button type="button" class="easy" onclick="easy()">Easy</button> <br/> <br/>
+			<button type="button" class="medium" onclick="medium()">Medium</button> <br/> <br/>
+			<button type="button" class="difficult" onclick="difficult()">Difficult</button> <br/> <br/>
+		</p>
+		<button type="button" class="home" onclick="openHome()">Home</button>
+		<button type="button" class="prev" onclick="openPrev()">Previous</button>
+		<button type="button" class="next" onclick="openNext()">Next</button>
+		</center>
+	</body>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+</html>	

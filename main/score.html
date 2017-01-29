@@ -1,0 +1,233 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Pong Game In JavaScript</title>
+
+<style>
+#box
+{
+   width: 500px;
+   height: 300px;
+   margin: auto;
+   border: 5px solid #ccc;
+   position: relative;
+   overflow: hidden;
+}
+
+.ob
+{
+   position: absolute;
+   border: 0px;
+   
+}
+
+ .pscore
+{
+    
+    position:relative;
+    float:left;
+}
+
+.cscore
+{
+	
+	position:relative;
+	float:right;
+}
+</style>
+<script type="text/javascript">
+if(parseInt(localStorage.getItem("highscore"))!=0)
+	localStorage.setItem("highscore",0);
+
+
+
+
+// CHANGE THESE, IF REQUIRED
+var Speed = 2; // Speed of ball (pixels/step)
+var CPUSpeed = 2;// Speed of CPU Paddle (pixels/step)
+
+// Short references to objects
+var paddle1;
+var paddle2;
+var ball;
+var box;
+var msg;
+
+
+// For internal use
+var dx, dy; // Speed in x and y directions
+var ballX, ballY; // x and y positions of ball
+var playerY; // y position of player paddle (x fixed)
+
+var cpuY; // y position of CPU paddle (x fixed)
+var iID; // To store ID of set interval used to clear it when required
+
+// Attach a function to onLoad event
+window.onload = Init;
+
+// INITIALIZE GAME OBJECTS
+function Init()
+{
+   // initialisation of objects
+
+   paddle1 = document.getElementById('paddle1');
+   paddle2 = document.getElementById('paddle2');
+   ball = document.getElementById('ball');
+   box = document.getElementById('box');
+   msg = document.getElementById('msg');
+
+   // Initial values
+   ballX = (box.offsetWidth / 2) - (ball.offsetWidth / 2); //set ball in middle of the page
+   ballY = (box.offsetHeight / 2) - (ball.offsetHeight / 2);
+   cpuY = (box.offsetHeight / 2) - (paddle2.offsetHeight / 2); //computer paddle
+   playerY = (box.offsetHeight / 2) - (paddle1.offsetHeight / 2); //user
+   dx = dy = Speed;
+
+   //positioning
+   paddle1.style.left = 20 + 'px'; //20 px from left margin
+   paddle1.style.top = playerY + 'px'; //from top position is set to middle
+   paddle2.style.right = 20 + 'px'; //20 px from right margin
+   paddle2.style.top = cpuY + 'px';
+   ball.style.left = ballX + 'px';
+   ball.style.top = ballY + 'px';
+
+   // Show message
+
+   msg.innerHTML = '<h2>Click on the Left Paddle to Start the Game.</h2>'; 
+}
+
+// START GAME
+function Start()
+{
+   // Attach a function to onmousemove event of the box
+   box.onmousemove = MovePaddle;
+   // Call 'GameLoop()' function every 10 milliseconds
+
+   iID = setInterval('GameLoop()', 10); //The setInterval() method will continue calling the function until clearInterval() is called, or the window is closed.
+    msg.innerHTML = ''; //to remove h2 element earlier
+}
+
+// MAIN GAME LOOP, CALLED REPEATEDLY
+function GameLoop()
+{
+   // MOVE BALL
+   ballX += dx;
+   ballY += dy;
+
+   // See if ball is past player paddle
+
+   if(ballX < 0)
+   {
+      clearInterval(iID);//The ID value returned by setInterval() is used as the parameter for the clearInterval() method
+      Init();
+
+      box.onmousemove = '';
+
+      msg.innerHTML = '<h2>You Loose!<br/>Click on Paddle to Re-Start Game.</h2>';
+   }
+
+   // See if ball is past CPU paddle
+
+   if((ballX + ball.offsetWidth) > box.offsetWidth)
+   {
+      clearInterval(iID);
+      Init();
+
+      box.onmousemove = '';
+
+      msg.innerHTML = '<h2>You Win!<br/>Click on Paddle to Re-Start Game.</h2>';
+   }
+
+   // COLLISION DETECTION
+
+   // If ball hits upper or lower wall
+   if(ballY < 0 || ((ballY + ball.offsetHeight) > box.offsetHeight))
+      dy = -dy; // Make x direction opposite
+
+   // If ball hits player paddle
+
+   if(ballX < (paddle1.offsetLeft + paddle1.offsetWidth))
+      if(((ballY + ball.offsetHeight) > playerY) && ballY < (playerY + paddle1.offsetHeight))
+        { dx = -dx;
+		var ps=document.getElementById("pscore").innerHTML;
+		ps++;
+		document.getElementById("pscore").innerHTML=ps;
+
+		if(parseInt(localStorage.getItem("highscore"))<ps)
+		{
+			localStorage.setItem("highscore",ps)
+			document.getElementById("highscore").innerHTML=localStorage.getItem("highscore");
+		}	
+		
+				
+	}
+		
+		
+		
+
+   // If ball hits CPU paddle
+   if((ballX + ball.offsetWidth) > paddle2.offsetLeft)
+      if(((ballY + ball.offsetHeight) > cpuY) && ballY < (cpuY + paddle2.offsetHeight))
+        { dx = -dx;
+	var cs=document.getElementById("cscore").innerHTML;
+		cs++;
+		document.getElementById("cscore").innerHTML=cs;
+	}
+
+   // Place ball at calculated positions
+
+   ball.style.left = ballX + 'px';
+   ball.style.top = ballY + 'px';
+
+   // MOVE CPU PADDLE
+   // Move paddle only if ball is coming towards the CPU paddle
+   if(dx > 0)
+   {
+      if((cpuY + (paddle2.offsetHeight / 2)) > (ballY + ball.offsetHeight)) cpuY -= CPUSpeed;
+      else cpuY += CPUSpeed;
+
+      paddle2.style.top = cpuY + 'px';
+   }
+}
+
+
+// TO MOVE PLAYER PADDLE ON MOUSE MOVE EVENT
+function MovePaddle(e)
+{
+   // Fetch y coordinate of mouse
+   var y = (e.clientY - (box.offsetTop - document.documentElement.scrollTop));
+   // Here, (box.offsetTop - document.documentElement.scrollTop) will get the relative
+   // position of "box" w.r.t to current scroll postion
+
+   // If y below lower boundary (cannot go above upper boundary - 
+   // mousemove event only generated when mouse is inside box
+   if(y > (box.offsetHeight - paddle1.offsetHeight))
+      y = (box.offsetHeight - paddle1.offsetHeight);
+
+   // Copy position
+   playerY = y;
+   // Set position
+
+   paddle1.style.top = y + 'px';
+}
+</script>
+</head>
+
+<body bgcolor="#fff">
+<h1 align="center">Pong Game Example in JavaScript</h1>
+
+<div id="box">
+<img class="ob" id="paddle1" src="paddle.PNG" onclick="javascript: Start()"/>
+
+<img class="ob" id="paddle2" src="paddle.PNG" />
+<img class="ob" id="ball" src="ball_small.PNG" />
+
+
+
+</div>
+<div id="msg" align="center"></div>
+<div class="pscore"><p>PLAYER SCORE</p><p id="pscore" >0</p></div>
+<div class="cscore"><p>COMPUTER SCORE</p><p id="cscore" text-align="center"><p>0</p></div>
+<div align="center"><p>HIGHSCORE</p><p id="highscore">0</p></div>
+</body>
+</html>

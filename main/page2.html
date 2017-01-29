@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+<html>
+	<head>
+		<title> Page2 </title>
+		<link rel="stylesheet" type="text/css" href="../assets/css/pages.css"/>
+		<script>
+			function setComp(img_id)
+			{
+				var img=document.getElementById(img_id);
+				var data=img.src;
+				localStorage.setItem('compImg', data);
+			}
+			function openHome()
+			{
+				window.open("index.html");
+			}
+			function openNext()
+			{
+				window.open("page3.html");
+			}
+			function openPrev()
+			{
+				window.open("page1.html");
+			}
+			
+		</script>
+	</head>
+	<body bgcolor="#FFB5C5">
+		<center>
+		<h1> Menu </h1> <br/>
+		<p id="comp"> <b>Click on Computer character: </b> <br/> <br/> 
+		<img src="../assets/img/villain-man.png" id="nerd" onclick="setComp(this.id)" height="200" width="100"/> 
+		<img src="../assets/img/woodpaddle.png" id="wood" onclick="setComp(this.id)" height="200" width="100"/>
+		<img src="../assets/img/comp.png" id="comp1" onclick="setComp(this.id)" height="200" width="100"/>
+		<br/><br/> 
+		</p>
+		<button type="button" class="home" onclick="openHome()">Home</button>
+		<button type="button" class="prev" onclick="openPrev()">Previous</button>
+		<button type="button" class="next" onclick="openNext()">Next</button>
+		</center>
+	</body>
+</html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->

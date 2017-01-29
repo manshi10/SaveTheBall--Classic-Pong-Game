@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+	<head>
+		<title> Page3 </title>
+		<link rel="stylesheet" type="text/css" href="../assets/css/pages.css"/>
+		<script>
+			function setBall(img_id)
+			{
+				var img=document.getElementById(img_id);
+				var data=img.src;
+				localStorage.setItem('ballImg', data);
+			}
+			function openHome()
+			{
+				window.open("index.html");
+			}
+			function openNext()
+			{
+				window.open("page4.html");
+			}
+			function openPrev()
+			{
+				window.open("page2.html");
+			}
+		</script>
+	</head>
+	<body bgcolor="#EEAEEE">
+		<center>
+		<h1> Menu </h1> <br/>
+		<p id="ball"> <b>Click on Ball: </b> <br/><br/>
+			<img src="../assets/img/ball1.png" id="ball1" onclick="setBall(this.id)" height="50" width="50"/>
+			<br/> <br/> 
+			<img src="../assets/img/ball2.png" id="ball2" onclick="setBall(this.id)" height="50" width="50"/>
+			<br/> <br/> 
+			<img src="../assets/img/Ball3.png" id="ball3" onclick="setBall(this.id)" height="50" width="50"/>
+			<br/><br/> 
+		</p>
+		<button type="button" class="home" onclick="openHome()">Home</button>
+		<button type="button" class="prev" onclick="openPrev()">Previous</button>
+		<button type="button" class="next" onclick="openNext()">Next</button>
+		</center>
+	</body>
+<!--Manshi Sanghai_Anupama Niranjan_Prathima PN-->
+</html>	
